@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import Search from './Components/Search'
 import Spinner from './Components/Spinner';
+import MovieComponent from './Components/MovieComponent';
 
 const App = () => {
 
@@ -40,6 +41,9 @@ const App = () => {
       }
 
       const data = await response.json()
+
+      console.log(data);
+      
 
       if (data.response == false) {
         seterrorMessage(data.error)
@@ -111,7 +115,7 @@ const App = () => {
                 {
 
                   allMovies.map((movie) => (
-                    <li key={movie.id} className='text-white'>{movie.title}</li>
+                    <MovieComponent id={movie.id} movie={movie}/>
                   ))}
 
 
