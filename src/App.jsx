@@ -28,12 +28,15 @@ const App = () => {
     }
   }
 
-  const fetchMovies = async () => {
+  const fetchMovies = async (query= "") => {
     setisLoading(true)
 
     try {
-      const END_POINT = `${BASE_URL}/discover/movie?sort_by=popularity.desc`
-      const response = await fetch(END_POINT, API_OPTIONS);
+      const endpoint = query
+        ? `${BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
+        : `${BASE_URL}/discover/movie?sort_by=popularity.desc`;
+
+      const response = await fetch(endpoint, API_OPTIONS);
 
 
       if (!response.ok) {
@@ -85,8 +88,8 @@ const App = () => {
 
 
   useEffect(() => {
-    fetchMovies();
-  }, []);
+    fetchMovies(searchTerm);
+  }, [searchTerm]);
 
   return (
     <main>
@@ -115,7 +118,7 @@ const App = () => {
                 {
 
                   allMovies.map((movie) => (
-                    <MovieComponent id={movie.id} movie={movie}/>
+                    <MovieComponent key={movie.id} movie={movie}/>
                   ))}
 
 

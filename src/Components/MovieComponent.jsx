@@ -17,7 +17,7 @@ const MovieComponent = ({movie}) => {
 <div className="rating">
             <img src="/star.svg" alt="" />
 
-            <p>{movie.vote_average?movie.vote_average.toFixed(1):N/A} </p>
+            <p>{movie.vote_average?movie.vote_average.toFixed(1):'N/A'} </p>
           </div>
 
           <span>.</span>
@@ -26,7 +26,7 @@ const MovieComponent = ({movie}) => {
           <span>.</span>
 
           <p className='year'>
-          {movie.release_date?movie.release_date.split('-')[0]:N/A}
+          {movie.release_date?movie.release_date.split('-')[0]:'N/A'}
           </p>
 
 
