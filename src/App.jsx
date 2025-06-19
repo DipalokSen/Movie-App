@@ -4,6 +4,7 @@ import Search from './Components/Search'
 import Spinner from './Components/Spinner';
 import MovieComponent from './Components/MovieComponent';
 import { useDebounce } from 'react-use';
+import { updatesearchTerm } from '../appWrite';
 
 const App = () => {
 
@@ -64,6 +65,12 @@ useDebounce(() => {
 
       setallMovies(data.results || [])
 
+      if(query && data.results.length >0){
+        await updatesearchTerm(query,data.results[0])
+      }
+
+      
+
 
 
 
@@ -96,6 +103,7 @@ useDebounce(() => {
 
   useEffect(() => {
     fetchMovies(searchTerm);
+
   }, [debouncedValue]);
 
   return (
