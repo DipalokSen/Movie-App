@@ -53,3 +53,20 @@ await database.updateDocument(DATABASE_ID,COLLECTION_ID,doc.$id,{
 console.log(Error)
  }
 }
+
+export const trendingMoviesdb=async ()=>{
+
+try{
+
+
+    const result=await database.listDocuments(DATABASE_ID,COLLECTION_ID,[
+        Query.limit(5),
+        Query.orderDesc("count")
+    ])
+     return result.documents
+
+}catch(Error){
+    console.log(Error)
+}
+
+}

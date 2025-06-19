@@ -5,6 +5,7 @@ import Spinner from './Components/Spinner';
 import MovieComponent from './Components/MovieComponent';
 import { useDebounce } from 'react-use';
 import { updatesearchTerm } from '../appWrite';
+import { trendingMoviesdb } from '../appWrite';
 
 const App = () => {
 
@@ -15,6 +16,7 @@ const App = () => {
   const [errorMessage, seterrorMessage] = useState(null);
 
   const [isLoading, setisLoading] = useState(false);
+ const [trendingMovies, settrendingMovies] = useState([]);
  
 const [debouncedValue, setDebouncedValue] = useState('');
 
@@ -22,6 +24,8 @@ useDebounce(() => {
   setDebouncedValue(searchTerm);
 }, 500, [searchTerm]);
   
+
+
 
 
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -35,7 +39,14 @@ useDebounce(() => {
       Authorization: `Bearer ${API_KEY}`
     }
   }
+const fetchTrendingMovies=async ()=>{
 
+ const movies=await trendingMoviesdb()
+ console.log(movies);
+ settrendingMovies(movies)
+
+
+}
   const fetchMovies = async (query= "") => {
     setisLoading(true)
 
@@ -106,6 +117,10 @@ useDebounce(() => {
 
   }, [debouncedValue]);
 
+
+  useEffect(() => {
+    fetchTrendingMovies()
+  }, []);
   return (
     <main>
       <div className='pattern' />
@@ -116,7 +131,21 @@ useDebounce(() => {
           <h1>Find <span className=' text-gradient'>Movies</span> You will Love Without the hassle</h1>
           <Search searchTerm={searchTerm} setsearchTerm={setsearchTerm} />
         </header>
-
+<section className="trending">
+  <h1>Trending Movies</h1>
+  <ul>
+     { trendingMovies.map((movie,index)=>(
+        
+        <li key={movie.$id}>
+         <p>{index+1}</p>
+          <img src={movie.poster_url} alt=""/>
+          
+        
+        </li>
+      ))
+    }
+  </ul>
+</section>
         <section className='all-movies'>
           <h4 className='text-white'>Find All Movies</h4>
 
