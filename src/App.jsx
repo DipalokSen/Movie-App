@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Search from './Components/Search'
 import Spinner from './Components/Spinner';
 import MovieComponent from './Components/MovieComponent';
+import { useDebounce } from 'react-use';
 
 const App = () => {
 
@@ -13,7 +14,13 @@ const App = () => {
   const [errorMessage, seterrorMessage] = useState(null);
 
   const [isLoading, setisLoading] = useState(false);
+ 
+const [debouncedValue, setDebouncedValue] = useState('');
 
+useDebounce(() => {
+  setDebouncedValue(searchTerm);
+}, 500, [searchTerm]);
+  
 
 
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -89,7 +96,7 @@ const App = () => {
 
   useEffect(() => {
     fetchMovies(searchTerm);
-  }, [searchTerm]);
+  }, [debouncedValue]);
 
   return (
     <main>
